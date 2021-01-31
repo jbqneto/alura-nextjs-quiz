@@ -22,35 +22,16 @@ const QuizContainer = styled.div`
 
 export default function Home() {
   const router = useRouter();
-  const [name, setName] = React.useState('');
-
-  const submit = (evt) => {
-    evt.preventDefault();
-    console.log('trying to submit');
-    router.push(`/quiz?name=${name}`);
-  }
+  const name = router.query.name;
 
   return (
   <QuizBackground backgroundImage={db.bg}>
     <QuizContainer>
       <Widget>
-        <Widget.Header>
-          <h1>{db.title}</h1>
-        </Widget.Header>
-        <Widget.Content>
-          <form onSubmit={ submit }>
-            <input onChange={({target}) => setName(target.value)} value={name} placeholder="Informe seu nome" />
-            <button disabled={name === null || name.length === 0} type="submit">
-              Jogar [{name}]
-            </button>
-          </form>    
-        </Widget.Content>
-      </Widget>
-      <Widget>
         <Widget.Content>
           <h1>Quiz Católico</h1>
 
-          <p>{db.description}</p>
+          <p>Olá {name}</p>
         </Widget.Content>
       </Widget>
       <Footer />
