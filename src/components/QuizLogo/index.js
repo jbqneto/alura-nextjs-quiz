@@ -36,6 +36,7 @@ function Logo({ className, onClick }) {
 
 const QuizLogo = styled(Logo)`
   margin: auto;
+  cursor: pointer;
   display: block;
   @media screen and (max-width: 500px) {
     margin: 0;

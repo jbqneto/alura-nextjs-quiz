@@ -3,7 +3,7 @@ import QuizTemplate from '../../src/template/Quiz';
 export default function Page({dbExterno}) {
 
   return (
-    <QuizTemplate db={dbExterno} />
+    <QuizTemplate backgroundImage={dbExterno.bg} questions={dbExterno.questions} />
   );
 }
 

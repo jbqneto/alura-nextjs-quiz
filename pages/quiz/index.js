@@ -6,5 +6,5 @@ import db from '../../config/db.json';
 import QuizTemplate from '../../src/template/Quiz';
 
 export default function QuizPage() {
-  return (<QuizTemplate db={db} />);
+  return (<QuizTemplate questions={db.questions} backgroundImage={db.bg} />);
 }
