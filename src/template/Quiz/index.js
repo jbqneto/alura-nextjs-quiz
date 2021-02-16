@@ -14,6 +14,7 @@ import Link from '../../components/Link';
 import Lootie from 'react-lottie';
 
 import animationData from '../../../assets/lootie_loading.json';
+import BackLinkArrow from '../../components/BackLinkArrow';
 
 const lootieDefault = {
   loop: true,
@@ -72,6 +73,7 @@ function ResultWidget({results}) {
         {total === 0 && <p>Você fez {total} pontos. Estude mais para a próxima!</p>}
         {total > 0 && <p>Parabéns! Você fez {total} pontos!</p>}
       </Widget.Content>
+      <BackLinkArrow title="Jogar novamente" href="/" />
     </Widget>
   );
 }
@@ -157,10 +159,10 @@ const screenStates = {
   RESULT: 'RESULT'
 };
 
-export default function QuizPage({db}) {
+export default function QuizPage({questions, backgroundImage}) {
   const router = useRouter();
   const name = router.query.name;
-  const totalQuestions = db.questions.length;
+  const totalQuestions = questions.length;
 
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
   const [screenState, setScreenState] = React.useState(screenStates.LOADING);
@@ -194,17 +196,9 @@ export default function QuizPage({db}) {
   }, []);
 
   return (
-    <QuizBackground backgroundImage={db.bg}>
+    <QuizBackground backgroundImage={backgroundImage}>
       <QuizContainer>
         <QuizLogo onClick={goHome} href="/" />
-        <Widget>
-          <Widget.Header>
-            <h1>{db.title}</h1>
-          </Widget.Header>
-          <Widget.Content>
-            <p>{`Boa sorte ${name}`}</p>
-          </Widget.Content>
-        </Widget>
 
         {screenState === screenStates.LOADING && <LoadingWidget /> }
 
@@ -214,7 +208,7 @@ export default function QuizPage({db}) {
             totalQuestions={totalQuestions} 
             onSubmit={handleSubmit}
             onResult={addResult}
-            question={db.questions[currentQuestion]} />
+            question={questions[currentQuestion]} />
 
         )}
         
