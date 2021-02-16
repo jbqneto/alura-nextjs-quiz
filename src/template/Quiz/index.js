@@ -2,25 +2,47 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import db from '../config/db.json';
-import Widget from '../src/components/Widget';
-import Footer from '../src/components/Footer';
-import GitHubCorner from '../src/components/GithubCorner';
-import QuizBackground from '../src/components/QuizBackground';
-import QuizContainer from '../src/components/QuizContainer';
-import QuizLogo from '../src/components/QuizLogo';
-import Button from '../src/components/Button';
-import AlternativesForm from '../src/components/AlternativesForm';
+import Widget from '../../components/Widget';
+import Footer from '../../components/Footer';
+import GitHubCorner from '../../components/GithubCorner';
+import QuizBackground from '../../components/QuizBackground';
+import QuizContainer from '../../components/QuizContainer';
+import QuizLogo from '../../components/QuizLogo';
+import Button from '../../components/Button';
+import AlternativesForm from '../../components/AlternativesForm';
+import Link from '../../components/Link';
+import Lootie from 'react-lottie';
+
+import animationData from '../../../assets/lootie_loading.json';
+
+const lootieDefault = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  renderSettings: {
+    preserveAspectRatio: 'xMidYmid slice'
+  }
+}
 
 function LoadingWidget() {
+  const [animationState, setAnimationState] = React.useState({
+    isStoped: false, isPaused: false
+  });
+
   return (
     <Widget>
-      <Widget.Header>
-        Carregando...
-      </Widget.Header>
-
       <Widget.Content>
-        [Desafio do Loading]
+        <Lootie 
+          options={lootieDefault}
+          width={120}
+          height={120}
+          style={{backgroundColor: 'transparent'}}
+          isStopped={animationState.isStoped}
+          isPaused={animationState.isPaused}
+        >
+
+        </Lootie>
+        <h2>Carregando...</h2>
       </Widget.Content>
     </Widget>
   );
@@ -135,7 +157,7 @@ const screenStates = {
   RESULT: 'RESULT'
 };
 
-export default function QuizPage() {
+export default function QuizPage({db}) {
   const router = useRouter();
   const name = router.query.name;
   const totalQuestions = db.questions.length;
@@ -147,6 +169,10 @@ export default function QuizPage() {
 
   function addResult(result) {
     setResults([...results, result]);
+  }
+
+  function goHome(evt) {
+    router.push('/');
   }
 
   const handleSubmit = () => {
@@ -170,7 +196,7 @@ export default function QuizPage() {
   return (
     <QuizBackground backgroundImage={db.bg}>
       <QuizContainer>
-        <QuizLogo />
+        <QuizLogo onClick={goHome} href="/" />
         <Widget>
           <Widget.Header>
             <h1>{db.title}</h1>
