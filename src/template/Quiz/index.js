@@ -110,7 +110,7 @@ function QuizQuestion({question, totalQuestions, questionIndex, onSubmit, onResu
               setSelectedAlternative(undefined);
               setIsQuestionSubmited(false);
               onSubmit();
-            }, 3 * 1000);
+            }, 2 * 1000);
           }}>
             {question.alternatives.map((alternative, i) => {
               const id = `alternative-${i}`;
