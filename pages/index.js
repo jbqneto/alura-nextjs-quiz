@@ -9,6 +9,8 @@ import QuizBackground from '../src/components/QuizBackground';
 import QuizContainer from '../src/components/QuizContainer';
 import Input from '../src/components/Input';
 import Button from '../src/components/Button';
+import Link from '../src/components/Link';
+import { motion } from 'framer-motion'
 
 export default function Home() {
   const router = useRouter();
@@ -16,17 +18,28 @@ export default function Home() {
 
   const submit = (evt) => {
     evt.preventDefault();
-    console.log('trying to submit');
     router.push(`/quiz?name=${name}`);
   }
 
   return (
   <QuizBackground backgroundImage={db.bg}>
     <QuizContainer>
-      <Widget>
+      <Widget as={motion.section}
+        variants={{
+          show: {opacity: 1},
+          hidden: {opacity: 0}
+        }}
+        initial="hidden"
+        animate="show"
+        >
         <Widget.Header>
           <h1>{db.title}</h1>
         </Widget.Header>
+        <Widget.Content>
+          <p>{db.description}</p>
+        </Widget.Content>
+      </Widget>
+      <Widget>
         <Widget.Content>
           <form onSubmit={ submit }>
             <Input onChange={({target}) => setName(target.value)} value={name} placeholder="Informe seu nome" />
@@ -36,13 +49,36 @@ export default function Home() {
           </form>    
         </Widget.Content>
       </Widget>
-      <Widget>
-        <Widget.Content>
-          <h1>Quiz Católico</h1>
 
-          <p>{db.description}</p>
+      <Widget>
+        
+        <Widget.Content>
+          <h1>Quizes da galera</h1>
+
+          <ul>
+            {db.external.map((link, i) => {
+              
+              const linkLabel = link
+                .replace(/\//g, '')
+                .replace('https:','')
+                .replace('.vercel.app','');
+
+              return (
+                <li key={`external-${i}`}>
+                  <Widget.Topic as={Link} href={`/quiz/${linkLabel}`}>
+                    {linkLabel}
+                  </Widget.Topic>
+                </li>
+
+              );
+
+            })}
+          </ul>
+
         </Widget.Content>
+
       </Widget>
+
       <Footer />
     </QuizContainer>
     <GitHubCorner projectUrl="https://github.com/jbqneto" />
